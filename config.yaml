@@ -1,0 +1,33 @@
+source:
+  type: "postgres"
+  connection:
+    host: "localhost"
+    port: 5481
+    database: "production_raw"
+    user: "postgres"
+    password: "postgres_password"
+
+target:
+  type: "postgres"
+  connection:
+    host: "localhost"
+    port: 5482
+    database: "testing_clean"
+    user: "postgres"
+    password: "postgres_password"
+
+redis:
+  host: "localhost"
+  port: 6380
+
+masking:
+  salt: "secure-salt-value-for-hmac-128"
+  rules:
+    users:
+      id: "deterministic"
+      name: "scramble_name"
+      email: "scramble_email"
+      phone: "scramble_phone"
+    orders:
+      user_id: "deterministic"
+      credit_card: "mask_credit_card"

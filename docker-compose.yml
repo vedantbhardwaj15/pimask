@@ -1,0 +1,36 @@
+version: '3.8'
+
+services:
+  production_raw:
+    image: postgres:15-alpine
+    container_name: pimask_production_raw
+    environment:
+      POSTGRES_DB: production_raw
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres_password
+    ports:
+      - "5481:5432"
+    mem_limit: 256m
+    volumes:
+      - ./docker/postgres/init.sql:/docker-entrypoint-initdb.d/init.sql
+
+  testing_clean:
+    image: postgres:15-alpine
+    container_name: pimask_testing_clean
+    environment:
+      POSTGRES_DB: testing_clean
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres_password
+    ports:
+      - "5482:5432"
+    mem_limit: 256m
+    volumes:
+      - ./docker/postgres/init.sql:/docker-entrypoint-initdb.d/init.sql
+
+  redis_queue:
+    image: redis:7-alpine
+    container_name: pimask_redis_queue
+    ports:
+      - "6380:6379"
+    mem_limit: 128m
+    command: redis-server --maxmemory 96mb --maxmemory-policy noeviction
