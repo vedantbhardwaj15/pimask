@@ -28,6 +28,9 @@ masking:
       name: "scramble_name"
       email: "scramble_email"
       phone: "scramble_phone"
+      address: "scramble_address"
+      aadhaar: "mask_aadhaar"
+      pan:  "mask_pan"
     orders:
       user_id: "deterministic"
       credit_card: "mask_credit_card"
