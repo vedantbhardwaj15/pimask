@@ -40,6 +40,18 @@ export class PostgresAdapter implements DatabaseAdapter {
     return res.rows.map((row) => row.table_name);
   }
 
+  async getColumns(table: string): Promise<string[]> {
+    const query = `
+      SELECT column_name 
+      FROM information_schema.columns 
+      WHERE table_schema = 'public' 
+        AND table_name = $1
+      ORDER BY ordinal_position;
+    `;
+    const res = await this.pool.query(query, [table]);
+    return res.rows.map((row) => row.column_name);
+  }
+
   async getForeignKeys(): Promise<ForeignKeyRelation[]> {
     const query = `
       SELECT
